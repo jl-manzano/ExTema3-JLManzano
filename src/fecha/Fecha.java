@@ -7,9 +7,10 @@ package fecha;
 
  */
 public class Fecha {
-    private int d; // Día
-    private int m; // Mes
-    private int a; // Año
+    public static final int DIEZ = 10;
+	private int dia; // Día
+    private int mes; // Mes
+    private int anio; // Año
 
     /**
      * Constructor default de la clase Fecha
@@ -25,9 +26,9 @@ public class Fecha {
      * @param anio Año de la fecha
      */
     public Fecha(int dia, int mes, int anio) {
-        this.d = dia;
-        this.m = mes;
-        this.a = anio;
+        this.dia = dia;
+        this.mes = mes;
+        this.anio = anio;
     }
 
     /**
@@ -36,26 +37,28 @@ public class Fecha {
      * @return Devuelve 'true' si la fecha es correcta o 'false' en caso contrario.
      */
     public boolean fechaCorrecta() {
-        boolean diaCorrecto, mesCorrecto, anioCorrecto;
-        anioCorrecto = a > 0;
-        mesCorrecto = m >= 1 && m <= 12;
+        boolean diaCorrecto; 
+        boolean mesCorrecto;
+        boolean anioCorrecto;
+        anioCorrecto = anio > 0;
+        mesCorrecto = mes >= 1 && mes <= 12;
 
-        switch (m) {
+        switch (mes) {
             case 2:
                 if (esBisiesto()) {
-                    diaCorrecto = d >= 1 && d <= 29;
+                    diaCorrecto = dia >= 1 && dia <= 29;
                 } else {
-                    diaCorrecto = d >= 1 && d <= 28;
+                    diaCorrecto = dia >= 1 && dia <= 28;
                 }
                 break;
             case 4:
             case 6:
             case 9:
             case 11:
-                diaCorrecto = d >= 1 && d <= 30;
+                diaCorrecto = dia >= 1 && dia <= 30;
                 break;
             default:
-                diaCorrecto = d >= 1 && d <= 31;
+                diaCorrecto = dia >= 1 && dia <= 31;
         }
         return diaCorrecto && mesCorrecto && anioCorrecto;
     }
@@ -66,20 +69,20 @@ public class Fecha {
      * @return Devuelve 'true' si el año es bisiesto o 'false' en caso contrario
      */
     private boolean esBisiesto() {
-        return (a % 4 == 0 && a % 100 != 0) || (a % 400 == 0);
+        return (anio % 4 == 0 && anio % 100 != 0) || (anio % 400 == 0);
     }
 
     /**
      * Método que avanza la fecha al día siguiente
      */
-    public void diaSiguiente() {
-        d++;
+    public void nextDay() {
+        dia++;
         if (!fechaCorrecta()) {
-            d = 1;
-            m++;
+            dia = 1;
+            mes++;
             if (!fechaCorrecta()) {
-                m = 1;
-                a++;
+                mes = 1;
+                anio++;
             }
         }
     }
@@ -91,14 +94,19 @@ public class Fecha {
      */
     @Override
     public String toString() {
-        if (d < 10 && m < 10) {
-            return "0" + d + "-0" + m + "-" + a;
-        } else if (d < 10) {
-            return "0" + d + "-" + m + "-" + a;
-        } else if (m < 10) {
-            return d + "-0" + m + "-" + a;
+        String resultado;
+
+        if (dia < DIEZ && mes < DIEZ) {
+            resultado = "0" + dia + "-0" + mes + "-" + anio;
+        } else if (dia < DIEZ) {
+            resultado = "0" + dia + "-" + mes + "-" + anio;
+        } else if (mes < DIEZ) {
+            resultado = dia + "-0" + mes + "-" + anio;
         } else {
-            return d + "-" + m + "-" + a;
+            resultado = dia + "-" + mes + "-" + anio;
         }
+
+        return resultado;
+
     }
 }
